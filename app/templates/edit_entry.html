@@ -1,0 +1,31 @@
+# app/templates/edit_entry.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Entry</title>
+    <!-- Reusing the same styles from index.html -->
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; color: #333; margin: 2em; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #0056b3; }
+        textarea { width: 95%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc; }
+        button { background-color: #0056b3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #004494; }
+        a { color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Entry</h1>
+        <form method="post">
+            <textarea name="entry_text" rows="5" required>{{ entry.text }}</textarea>
+            <br>
+            <button type="submit">Save Changes</button>
+        </form>
+        <br>
+        <a href="{{ url_for('main.index') }}">Cancel</a>
+    </div>
+</body>
+</html>
