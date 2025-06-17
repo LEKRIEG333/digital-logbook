@@ -1,0 +1,24 @@
+# 500.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>500 - Server Error</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; color: #333; margin: 2em; text-align: center; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #f0ad4e; font-size: 3em; }
+        p { font-size: 1.2em; }
+        a { color: #0056b3; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>500</h1>
+        <p>Oops! Something went wrong on our end. We're looking into it.</p>
+        <p><a href="{{ url_for('main.index') }}">Return to the Digital Logbook</a></p>
+    </div>
+</body>
+</html>

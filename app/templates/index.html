@@ -17,28 +17,45 @@
         .timestamp { color: #888; font-size: 0.8em; }
         .actions a { text-decoration: none; color: #0056b3; margin-right: 10px; }
         .actions a:hover { text-decoration: underline; }
+        
+        /* --- NEW: CSS for flash messages --- */
+        .flashes { list-style: none; padding: 0; margin-bottom: 1em; }
+        .flashes div { padding: 15px; margin-bottom: 10px; border: 1px solid transparent; border-radius: 4px; }
+        .alert-success { color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; }
+        /* --- End of new CSS --- */
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Digital Logbook</h1>
         
-        <!-- The form to add a new entry -->
+        <!-- --- NEW: Section to display flashed messages --- -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flashes">
+            {% for category, message in messages %}
+              <div class="alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        <!-- --- End of new section --- -->
+
         <form action="{{ url_for('main.add') }}" method="post">
             <textarea name="entry_text" rows="3" placeholder="What's on your mind?"></textarea>
             <br><br>
- 	    <input type="text" name="category" placeholder="Category (e.g., Work, Personal)" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd; box-sizing: border-box; margin-bottom: 1em;">
+            <input type="text" name="category" placeholder="Category (e.g., Work, Personal)" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd; box-sizing: border-box; margin-bottom: 1em;">
+            <button type="submit">Add Entry</button>
         </form>
 
         <h2>Log Entries</h2>
-        <!-- This section will display the entries -->
         <div class="entries">
             {% for entry in entries %}
                 <div class="entry">
                     <p>{{ entry.text }}</p>
-    		    {% if entry.category %}
-        		<p class="category"><strong>Category:</strong> 				{{ entry.category }}</p>
-    		    {% endif %}
+                    {% if entry.category %}
+                        <p class="category"><strong>Category:</strong> {{ entry.category }}</p>
+                    {% endif %}
                     <p class="timestamp">Logged on: {{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }} UTC</p>
                     <div class="actions">
                         <a href="{{ url_for('main.edit', id=entry.id) }}">Edit</a>
