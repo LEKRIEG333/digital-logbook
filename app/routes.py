@@ -20,20 +20,16 @@ def index():
 
 @bp.route('/add', methods=['POST'])
 def add():
-    """
-    CREATE Operation: Add a new log entry.
-    """
-    # Get the text from the form submission
     entry_text = request.form['entry_text']
+    # NEW: Get the category from the form. Use .get() for optional fields.
+    entry_category = request.form.get('category')
     
-    # Create a new LogEntry object with the submitted text
-    new_entry = LogEntry(text=entry_text)
+    # Pass the new category to the LogEntry constructor
+    new_entry = LogEntry(text=entry_text, category=entry_category)
     
-    # Add the new entry to the database session and commit the transaction
     db.session.add(new_entry)
     db.session.commit()
     
-    # Redirect the user back to the main page to see the new entry
     return redirect(url_for('main.index'))
 
 @bp.route('/edit/<int:id>', methods=['GET'])
@@ -49,15 +45,11 @@ def edit(id):
 
 @bp.route('/update/<int:id>', methods=['POST'])
 def update(id):
-    """
-    Part 2 of UPDATE: Process the form submission and save the changes.
-    """
     entry = db.get_or_404(LogEntry, id)
-    # Update the entry's text with the new text from the form
     entry.text = request.form['entry_text']
-    # Commit the changes to the database
+    # NEW: Update the category field as well
+    entry.category = request.form.get('category')
     db.session.commit()
-    # Redirect back to the main page
     return redirect(url_for('main.index'))
 
 @bp.route('/delete/<int:id>')

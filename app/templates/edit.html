@@ -19,12 +19,14 @@
 <body>
     <div class="container">
         <h1>Edit Log Entry</h1>
-        <form action="{{ url_for('main.update', id=entry.id) }}" method="post">
-            <textarea name="entry_text" rows="5">{{ entry.text }}</textarea>
-            <br><br>
-            <button type="submit">Save Changes</button>
-            <a href="{{ url_for('main.index') }}" class="cancel-link">Cancel</a>
-        </form>
-    </div>
+<form action="{{ url_for('main.update', id=entry.id) }}" method="post">
+    <textarea name="entry_text" rows="5">{{ entry.text }}</textarea>
+    <br><br>
+    <!-- NEW: Add the category edit field -->
+    <input type="text" name="category" placeholder="Category" value="{{ entry.category or '' }}">
+    <br><br>
+    <button type="submit">Save Changes</button>
+    <a href="{{ url_for('main.index') }}" class="cancel-link">Cancel</a>
+</form>    </div>
 </body>
 </html>
