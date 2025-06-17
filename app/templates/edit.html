@@ -1,0 +1,30 @@
+# edit.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Entry</title>
+    <!-- Reusing the same styles as index.html for consistency -->
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; color: #333; margin: 2em; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #0056b3; }
+        textarea { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd; }
+        button { background-color: #0056b3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #004494; }
+        .cancel-link { margin-left: 1em; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Log Entry</h1>
+        <form action="{{ url_for('main.update', id=entry.id) }}" method="post">
+            <textarea name="entry_text" rows="5">{{ entry.text }}</textarea>
+            <br><br>
+            <button type="submit">Save Changes</button>
+            <a href="{{ url_for('main.index') }}" class="cancel-link">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
