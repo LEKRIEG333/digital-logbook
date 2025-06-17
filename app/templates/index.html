@@ -7,45 +7,38 @@
         body { font-family: sans-serif; background-color: #f4f4f4; color: #333; margin: 2em; }
         .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         h1, h2 { color: #0056b3; }
-        .log-entry { border-bottom: 1px solid #eee; padding: 10px 0; }
-        .log-entry:last-child { border-bottom: none; }
-        .timestamp { font-size: 0.8em; color: #888; }
-        .actions { font-size: 0.9em; margin-top: 5px; }
-        .actions a { color: #0056b3; text-decoration: none; }
-        .actions a:hover { text-decoration: underline; }
-        textarea { width: 95%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc; }
+        form { margin-bottom: 2em; }
+        textarea { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd; }
         button { background-color: #0056b3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #004494; }
+        .entry { border-bottom: 1px solid #eee; padding: 10px 0; }
+        .entry:last-child { border-bottom: none; }
+        .timestamp { color: #888; font-size: 0.8em; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Digital Logbook</h1>
         
-        <h2>New Entry</h2>
-        <form action="{{ url_for('main.add_entry') }}" method="post">
-            <textarea name="entry_text" rows="3" required></textarea>
-            <br>
+        <!-- NEW: The form to add a new entry -->
+        <form action="{{ url_for('main.add') }}" method="post">
+            <textarea name="entry_text" rows="3" placeholder="What's on your mind?"></textarea>
+            <br><br>
             <button type="submit">Add Entry</button>
         </form>
 
-        <hr style="margin: 20px 0;">
-
-        <h2>Logbook</h2>
-        {% for entry in entries %}
-            <div class="log-entry">
-                <p>{{ entry.text }}</p>
-                <p class="timestamp">Logged on: {{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }} UTC</p>
-                
-                <!-- Action links for each entry -->
-                <div class="actions">
-                    <a href="{{ url_for('main.edit_entry', entry_id=entry.id) }}">Edit</a> |
-                    <a href="{{ url_for('main.delete_entry', entry_id=entry.id) }}" onclick="return confirm('Are you sure you want to delete this entry?');">Delete</a>
+        <h2>Log Entries</h2>
+        <!-- NEW: This section will display the entries -->
+        <div class="entries">
+            {% for entry in entries %}
+                <div class="entry">
+                    <p>{{ entry.text }}</p>
+                    <p class="timestamp">Logged on: {{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }} UTC</p>
                 </div>
-            </div>
-        {% else %}
-            <p>No entries yet. Add one above!</p>
-        {% endfor %}
+            {% else %}
+                <p>No entries yet. Add one above!</p>
+            {% endfor %}
+        </div>
     </div>
 </body>
 </html>
