@@ -31,3 +31,15 @@ def delete_entry(id):
     entry = get_entry_by_id(id)
     db.session.delete(entry)
     db.session.commit()
+
+# --- NEW FUNCTION FOR SEARCH ---
+def search_entries(query):
+    """
+    Searches for log entries where the text contains the given query string.
+    The search is case-insensitive.
+    """
+    # The .ilike() method provides a case-insensitive "LIKE" query.
+    # The '%' are wildcards, so we are searching for the query anywhere in the text.
+    search_term = f"%{query}%"
+    return LogEntry.query.filter(LogEntry.text.ilike(search_term)).order_by(LogEntry.timestamp.desc()).all()
+# --- END OF NEW FUNCTION ---

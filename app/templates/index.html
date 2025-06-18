@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+# index.html
+]
+]<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +10,7 @@
         .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         h1, h2 { color: #0056b3; }
         form { margin-bottom: 2em; }
-        textarea { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd; box-sizing: border-box; }
+        textarea, input[type="text"] { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd; box-sizing: border-box; }
         button { background-color: #0056b3; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #004494; }
         .entries { margin-top: 1em; }
@@ -17,19 +19,15 @@
         .timestamp { color: #888; font-size: 0.8em; }
         .actions a { text-decoration: none; color: #0056b3; margin-right: 10px; }
         .actions a:hover { text-decoration: underline; }
-        
-        /* --- NEW: CSS for flash messages --- */
         .flashes { list-style: none; padding: 0; margin-bottom: 1em; }
         .flashes div { padding: 15px; margin-bottom: 10px; border: 1px solid transparent; border-radius: 4px; }
         .alert-success { color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; }
-        /* --- End of new CSS --- */
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Digital Logbook</h1>
         
-        <!-- --- NEW: Section to display flashed messages --- -->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <div class="flashes">
@@ -39,16 +37,26 @@
             </div>
           {% endif %}
         {% endwith %}
-        <!-- --- End of new section --- -->
 
         <form action="{{ url_for('main.add') }}" method="post">
             <textarea name="entry_text" rows="3" placeholder="What's on your mind?"></textarea>
             <br><br>
-            <input type="text" name="category" placeholder="Category (e.g., Work, Personal)" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd; box-sizing: border-box; margin-bottom: 1em;">
+            <input type="text" name="category" placeholder="Category (e.g., Work, Personal)" style="margin-bottom: 1em;">
             <button type="submit">Add Entry</button>
         </form>
 
         <h2>Log Entries</h2>
+
+        <!-- --- NEW SEARCH FORM --- -->
+        <form action="{{ url_for('main.index') }}" method="get" style="margin-bottom: 2em; display: flex; gap: 10px;">
+            <input type="text" name="search_query" placeholder="Search entries..." value="{{ search_query or '' }}">
+            <button type="submit">Search</button>
+            {% if search_query %}
+                <a href="{{ url_for('main.index') }}" style="display: inline-block; padding: 10px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">Clear</a>
+            {% endif %}
+        </form>
+        <!-- --- END OF NEW SEARCH FORM --- -->
+
         <div class="entries">
             {% for entry in entries %}
                 <div class="entry">
