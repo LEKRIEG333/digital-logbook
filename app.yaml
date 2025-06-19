@@ -2,7 +2,9 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
-entrypoint: "gunicorn -b :$PORT 'app:create_app()'"
+handlers:
+- url: /.*
+  script: run.app
 
 beta_settings:
   cloud_sql_instances: your-initials-logbook-yymmdd:us-central1:digital-logbook-db-main
