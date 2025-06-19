@@ -1,4 +1,4 @@
-runtime: python
+runtime: python27
 entrypoint: "gunicorn -b : 'app:create_app()'"
 
 beta_settings:
